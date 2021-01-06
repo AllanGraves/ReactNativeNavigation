@@ -5,110 +5,100 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaView, Button, View, Text, StatusBar} from 'react-native';
+import {createStackNavigator, StackActions} from '@react-navigation/stack';
+
+import {useEffect} from 'react';
+
+const ScreenOne = ({navigation}) => {
+  useEffect(() => {
+    console.log('Screen 1 Mount: ');
+    console.log(navigation.dangerouslyGetState());
+
+    return () => {
+      console.log('Screen 1 Unmount:');
+      console.log(navigation.dangerouslyGetState());
+    };
+  });
+
+  return (
+    <View>
+      <Text> Screen One </Text>
+      <Button title="Go to Two" onPress={() => navigation.navigate('Two')} />
+      <Button
+        title="Replace with Three"
+        onPress={() => navigation.replace('Three')}
+      />
+    </View>
+  );
+};
+
+const ScreenTwo = ({navigation}) => {
+  useEffect(() => {
+    console.log('Screen 2 Mount: ');
+    console.log(navigation.dangerouslyGetState());
+
+    return () => {
+      console.log('Screen 2 Unmount:');
+      console.log(navigation.dangerouslyGetState());
+    };
+  });
+
+  return (
+    <View>
+      <Text> Screen Two </Text>
+      <Button
+        title="Go to Three"
+        onPress={() => navigation.navigate('Three')}
+      />
+    </View>
+  );
+};
+
+const ScreenThree = ({navigation}) => {
+  useEffect(() => {
+    console.log('Screen 3 Mount: ');
+    console.log(navigation.dangerouslyGetState());
+
+    return () => {
+      console.log('Screen 3 Unmount:');
+      console.log(navigation.dangerouslyGetState());
+    };
+  });
+  return (
+    <View>
+      <Text> Screen Three </Text>
+      <Button title="Go to One" onPress={() => navigation.navigate('One')} />
+    </View>
+  );
+};
+
+const Stack = createStackNavigator();
+
+const StackScreens = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="One" component={ScreenOne} />
+      <Stack.Screen name="Two" component={ScreenTwo} />
+      <Stack.Screen name="Three" component={ScreenThree} />
+    </Stack.Navigator>
+  );
+};
 
 const App: () => React$Node = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <StatusBar barStyle="dark-content" />
+        <StackScreens />
+      </NavigationContainer>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;
