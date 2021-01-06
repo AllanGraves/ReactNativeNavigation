@@ -8,12 +8,16 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationState,
+} from '@react-navigation/native';
 
-import {SafeAreaView, Button, View, Text, StatusBar} from 'react-native';
+import {Button, View, Text, StatusBar} from 'react-native';
 import {createStackNavigator, StackActions} from '@react-navigation/stack';
 
 import {useEffect} from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const ScreenOne = ({navigation}) => {
   useEffect(() => {
@@ -26,14 +30,19 @@ const ScreenOne = ({navigation}) => {
     };
   });
 
+  const type = useNavigationState((state) => state.type);
+  console.log(type);
+
   return (
     <View>
       <Text> Screen One </Text>
       <Button title="Go to Two" onPress={() => navigation.navigate('Two')} />
-      <Button
-        title="Replace with Three"
-        onPress={() => navigation.replace('Three')}
-      />
+      {type === 'stack' && (
+        <Button
+          title="Replace with Three"
+          onPress={() => navigation.replace('Three')}
+        />
+      )}
     </View>
   );
 };
@@ -90,12 +99,23 @@ const StackScreens = () => {
   );
 };
 
+const Drawer = createDrawerNavigator();
+const DrawerScreens = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="One" component={ScreenOne} />
+      <Drawer.Screen name="Two" component={ScreenTwo} />
+      <Drawer.Screen name="Three" component={ScreenThree} />
+    </Drawer.Navigator>
+  );
+};
+
 const App: () => React$Node = () => {
   return (
     <>
       <NavigationContainer>
         <StatusBar barStyle="dark-content" />
-        <StackScreens />
+        <DrawerScreens />
       </NavigationContainer>
     </>
   );
