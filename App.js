@@ -110,12 +110,25 @@ const DrawerScreens = () => {
   );
 };
 
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator();
+
+const TabScreens = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="One" component={ScreenOne} />
+      <Tab.Screen name="Two" component={ScreenTwo} />
+      <Tab.Screen name="Three" component={ScreenThree} />
+    </Tab.Navigator>
+  );
+};
+
 const App: () => React$Node = () => {
   return (
     <>
       <NavigationContainer>
         <StatusBar barStyle="dark-content" />
-        <DrawerScreens />
+        <TabScreens />
       </NavigationContainer>
     </>
   );
