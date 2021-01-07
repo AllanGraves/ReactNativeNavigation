@@ -43,6 +43,13 @@ const ScreenOne = ({navigation}) => {
           onPress={() => navigation.replace('Three')}
         />
       )}
+      <Button
+        title="Display Screen Four Info"
+        onPress={() => {
+          var rand = Math.random();
+          navigation.navigate('Four', {number: rand});
+        }}
+      />
     </View>
   );
 };
@@ -87,6 +94,25 @@ const ScreenThree = ({navigation}) => {
   );
 };
 
+const ScreenFour = ({navigation, route}) => {
+  useEffect(() => {
+    console.log('Screen 4 Mount: ');
+    console.log(navigation.dangerouslyGetState());
+    console.log(route);
+
+    return () => {
+      console.log('Screen 4 Unmount:');
+      console.log(navigation.dangerouslyGetState());
+    };
+  });
+  return (
+    <View>
+      <Text> Screen Four: {route.params.number} </Text>
+      <Button title="Go to One" onPress={() => navigation.navigate('One')} />
+    </View>
+  );
+};
+
 const Stack = createStackNavigator();
 
 const StackScreens = () => {
@@ -95,6 +121,7 @@ const StackScreens = () => {
       <Stack.Screen name="One" component={ScreenOne} />
       <Stack.Screen name="Two" component={ScreenTwo} />
       <Stack.Screen name="Three" component={ScreenThree} />
+      {ScreenFour && <Stack.Screen name="Four" component={ScreenFour} />}
     </Stack.Navigator>
   );
 };
@@ -106,6 +133,7 @@ const DrawerScreens = () => {
       <Drawer.Screen name="One" component={ScreenOne} />
       <Drawer.Screen name="Two" component={ScreenTwo} />
       <Drawer.Screen name="Three" component={ScreenThree} />
+      {ScreenFour && <Drawer.Screen name="Four" component={ScreenFour} />}
     </Drawer.Navigator>
   );
 };
@@ -119,6 +147,7 @@ const TabScreens = () => {
       <Tab.Screen name="One" component={ScreenOne} />
       <Tab.Screen name="Two" component={ScreenTwo} />
       <Tab.Screen name="Three" component={ScreenThree} />
+      {ScreenFour && <Tab.Screen name="Four" component={ScreenFour} />}
     </Tab.Navigator>
   );
 };
@@ -128,7 +157,7 @@ const App: () => React$Node = () => {
     <>
       <NavigationContainer>
         <StatusBar barStyle="dark-content" />
-        <TabScreens />
+        <DrawerScreens />
       </NavigationContainer>
     </>
   );
