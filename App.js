@@ -153,6 +153,7 @@ const TabScreens = () => {
 };
 
 const App: () => React$Node = () => {
+  /* Change DrawerScreens to TabScreens or Stackscreens to see other navigators */
   return (
     <>
       <NavigationContainer>
